@@ -1,0 +1,19 @@
+{
+  "name": "membership-amazon",
+  "version": "1.0.0",
+  "description": "2019 Boostcamp Membership Mission 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hzoou/membership-amazon.git"
+  },
+  "author": "hzoou (Woo Hyeju)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hzoou/membership-amazon/issues"
+  },
+  "homepage": "https://github.com/hzoou/membership-amazon#readme"
+}
