@@ -56,8 +56,15 @@ class MiniCarousel {
         this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000);
     }
 
+    clearInterval() {
+        clearInterval(this.interval);
+        setTimeout(() => { this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000); }, this.sec.stop * 1000);
+    }
+
     attachEvent() {
+        this.prev.addEventListener('click', this.clearInterval.bind(this));
         this.prev.addEventListener('click', this.moveToPrev.bind(this));
+        this.next.addEventListener('click', this.clearInterval.bind(this));
         this.next.addEventListener('click', this.moveToNext.bind(this));
     }
 
