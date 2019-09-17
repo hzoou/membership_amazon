@@ -3,6 +3,7 @@ import miniCarouselData from "../../data/mini-carousel.js";
 class MiniCarousel {
     constructor() {
         this.data = miniCarouselData;
+        this.sec = { run: 3, stop: 9 };
     }
 
     render() {
@@ -30,6 +31,58 @@ class MiniCarousel {
                         <a class="a-link-normal" title="Explore Prime Video" href="/gp/video/storefront/ref=dvm_us_aq_np_dhb_be_optorigt1?ie=UTF8&amp;merchId=originals1">Explore Prime Video<img class="arrow" src="https://i.imgur.com/jEz38Eo.png"></a>
                     </div>
                 </div>`;
+    }
+
+    getElementById() {
+        this.carousel = document.querySelector('.carousel-container');
+        this.container = this.carousel.querySelector('.carousel-item-container');
+        this.item = this.carousel.querySelector('.carousel-item');
+        this.items = this.carousel.querySelectorAll('.carousel-item');
+        this.init();
+    }
+
+    init() {
+        this.itemWidth = this.item.offsetWidth;
+        this.itemLength = this.items.length;
+        this.offset = 0;
+        this.currentItem = 1;
+        this.insertClone();
+        this.offset = -this.itemWidth;
+        this.container.childNodes.forEach((d) => {if(d.nodeName === '#text') d.remove()});
+        this.moveWithoutAnimation();
+        this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000);
+    }
+
+    insertClone() {
+        const firstItem = this.items[0];
+        const lastItem = this.items[this.itemLength - 1];
+        this.container.insertBefore(lastItem.cloneNode(true), this.container.firstChild);
+        this.container.appendChild(firstItem.cloneNode(true));
+    }
+
+    moveToNext() {
+        this.offset -= this.itemWidth;
+        this.move();
+        this.currentItem++;
+        if (this.isClone()) {
+            this.offset += this.itemLength * this.itemWidth;
+            setTimeout(() => this.moveWithoutAnimation(), 200);
+            this.currentItem = this.currentItem - this.itemLength;
+        }
+    }
+
+    isClone() {
+        return this.currentItem === 0 || this.currentItem === this.itemLength + 1;
+    }
+
+    move() {
+        this.container.style.transition = `transform 200ms ease-out`;
+        this.container.style.transform = `translate(${this.offset}px, 0)`;
+    }
+
+    moveWithoutAnimation() {
+        this.container.style.transition = 'none';
+        this.container.style.transform = `translate(${this.offset}px, 0)`;
     }
 }
 export default MiniCarousel;
