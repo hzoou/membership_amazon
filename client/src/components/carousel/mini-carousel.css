@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'Amazon Ember';
+    src: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/AmazonEmber_W_Lt._CB513866389_.woff);
+}
+
+* {
+    font-family: 'Amazon Ember';
+}
+
+.mini-carousel {
+    display: inline-flex;
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-item > a > img {
+    width: 250px;
+    height: 180px;
+}
+
+.carousel-content {
+    width: 250px;
+    height: 180px;
+    box-shadow: 0px 0px 11px 3px #989898;
+    overflow: hidden;
+}
+
+.carousel-item-container {
+    display: flex;
+}
+
+.carousel-control {
+    width: 20px;
+    height: 100%;
+}
+
+.carousel-control:first-child {
+    margin-right: 15px;
+}
+
+.carousel-control:last-child {
+    margin-left: 15px;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #000;
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.prev {
+    left: 0;
+}
+
+.prev:focus {
+    outline: none;
+}
+
+.next {
+    right: 0;
+}
+
+.next:focus {
+    outline: none;
+}
+
+.content-container {
+    margin-left: 50px;
+}
+
+.content-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.content-subtitle {
+    margin-bottom: 15px;
+}
+
+.content-link > a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.content-link > a:hover {
+    text-decoration: underline;
+}
+
+.arrow {
+    margin-left: 5px;
+    width: 10px;
+}
