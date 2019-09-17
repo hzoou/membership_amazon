@@ -38,7 +38,10 @@ class MiniCarousel {
         this.container = this.carousel.querySelector('.carousel-item-container');
         this.item = this.carousel.querySelector('.carousel-item');
         this.items = this.carousel.querySelectorAll('.carousel-item');
+        this.prev = this.carousel.querySelector('.prev');
+        this.next = this.carousel.querySelector('.next');
         this.init();
+        this.attachEvent();
     }
 
     init() {
@@ -53,11 +56,27 @@ class MiniCarousel {
         this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000);
     }
 
+    attachEvent() {
+        this.prev.addEventListener('click', this.moveToPrev.bind(this));
+        this.next.addEventListener('click', this.moveToNext.bind(this));
+    }
+
     insertClone() {
         const firstItem = this.items[0];
         const lastItem = this.items[this.itemLength - 1];
         this.container.insertBefore(lastItem.cloneNode(true), this.container.firstChild);
         this.container.appendChild(firstItem.cloneNode(true));
+    }
+
+    moveToPrev() {
+        this.offset += this.itemWidth;
+        this.move();
+        this.currentItem--;
+        if (this.isClone()) {
+            this.offset -= this.itemLength * this.itemWidth;
+            setTimeout(() => this.moveWithoutAnimation(), 200);
+            this.currentItem = this.currentItem + this.itemLength;
+        }
     }
 
     moveToNext() {
