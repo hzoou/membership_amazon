@@ -1,14 +1,7 @@
-@font-face {
-    font-family: 'Amazon Ember';
-    src: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/AmazonEmber_W_Lt._CB513866389_.woff);
-}
-
-* {
-    font-family: 'Amazon Ember';
-}
-
 .mini-carousel {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .carousel-container {
@@ -27,7 +20,7 @@
 .carousel-content {
     width: 250px;
     height: 180px;
-    box-shadow: 0px 0px 11px 3px #989898;
+    box-shadow: 0px -8px 10px 2px #989898;
     overflow: hidden;
 }
 

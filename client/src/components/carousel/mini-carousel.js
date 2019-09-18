@@ -3,7 +3,7 @@ import miniCarouselData from "../../data/mini-carousel.js";
 class MiniCarousel {
     constructor() {
         this.data = miniCarouselData;
-        this.sec = { run: 3, stop: 9 };
+        this.sec = { run: 3, stop: 7 };
     }
 
     render() {
@@ -12,11 +12,7 @@ class MiniCarousel {
                         <button class="prev">&lt;</button>
                     </div>
                     <div class="carousel-content">
-                        <div class="carousel-item-container">
-                            ${this.data.map((d) => {
-                                return `<div class="carousel-item"><a href="${d.link}"><img src="${d.image}"></a></div>`;
-                            })}
-                        </div>
+                        <div class="carousel-item-container"></div>
                     </div>
                     <div class="carousel-control">
                         <button class="next">&gt;</button>
@@ -36,6 +32,8 @@ class MiniCarousel {
     getElementById() {
         this.carousel = document.querySelector('.carousel-container');
         this.container = this.carousel.querySelector('.carousel-item-container');
+        this.container.innerHTML = this.insertItem(this.makeItemOrder());
+        this.container.childNodes.forEach((d) => {if(d.nodeName === '#text') d.remove()});
         this.item = this.carousel.querySelector('.carousel-item');
         this.items = this.carousel.querySelectorAll('.carousel-item');
         this.prev = this.carousel.querySelector('.prev');
@@ -44,71 +42,90 @@ class MiniCarousel {
         this.attachEvent();
     }
 
+    insertItem(order) {
+        return (order.map((o, i) => `<div class="carousel-item" data-set="${i}"><a href="${this.data[o].link}"><img src="${this.data[o].image}"></a></div>`));
+    }
+
+    makeItemOrder() {
+        this.initIndex = 0;
+        this.children = [];
+        this.itemLength = this.data.length;
+        for (let i = 0; i < this.itemLength; i++) this.children.push(i);
+        this.itemHalfLength = Math.floor(this.itemLength / 2);
+        this.leftChildren = this.children.splice(0, this.initIndex);
+        this.extraChildren = this.children;
+        this.rightChildren = this.extraChildren.splice(0, this.itemHalfLength);
+        this.children = (this.extraChildren.concat(this.leftChildren)).concat(this.rightChildren);
+        return this.children;
+    }
+
     init() {
+        this.pushCnt = 0;
+        this.timeoutCnt = 0;
+        this.reverse = false;
         this.itemWidth = this.item.offsetWidth;
         this.itemLength = this.items.length;
-        this.offset = 0;
-        this.currentItem = 1;
-        this.insertClone();
         this.offset = -this.itemWidth;
-        this.container.childNodes.forEach((d) => {if(d.nodeName === '#text') d.remove()});
-        this.moveWithoutAnimation();
+        this.standardPosition = -(this.itemWidth * this.itemHalfLength);
+        this.container.style.transition = 'transform 0s ease 0s';
+        this.container.style.transform = `translate(${this.standardPosition}px, 0)`;
         this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000);
     }
 
-    clearInterval() {
-        clearInterval(this.interval);
-        setTimeout(() => { this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000); }, this.sec.stop * 1000);
-    }
-
     attachEvent() {
-        this.prev.addEventListener('click', this.clearInterval.bind(this));
+        this.container.addEventListener('transitionend', this.moveWithoutAnimation.bind(this));
         this.prev.addEventListener('click', this.moveToPrev.bind(this));
-        this.next.addEventListener('click', this.clearInterval.bind(this));
+        this.prev.addEventListener('click', this.stopInterval.bind(this));
         this.next.addEventListener('click', this.moveToNext.bind(this));
+        this.next.addEventListener('click', this.stopInterval.bind(this));
     }
 
-    insertClone() {
-        const firstItem = this.items[0];
-        const lastItem = this.items[this.itemLength - 1];
-        this.container.insertBefore(lastItem.cloneNode(true), this.container.firstChild);
-        this.container.appendChild(firstItem.cloneNode(true));
+    stopInterval() {
+        this.pushCnt++;
+        clearInterval(this.interval);
+        setTimeout(() => {
+            this.timeoutCnt--;
+            if (this.timeoutCnt + this.pushCnt == 0) {
+                this.interval = setInterval(this.moveToNext.bind(this), this.sec.run * 1000);
+                this.pushCnt = 0;
+                this.timeoutCnt = 0;
+            }
+        }, this.sec.stop * 1000);
     }
 
     moveToPrev() {
-        this.offset += this.itemWidth;
+        this.offset = -this.itemWidth;
+        this.reverse = true;
         this.move();
-        this.currentItem--;
-        if (this.isClone()) {
-            this.offset -= this.itemLength * this.itemWidth;
-            setTimeout(() => this.moveWithoutAnimation(), 200);
-            this.currentItem = this.currentItem + this.itemLength;
-        }
     }
 
     moveToNext() {
-        this.offset -= this.itemWidth;
+        this.offset = this.itemWidth;
+        this.reverse = false;
         this.move();
-        this.currentItem++;
-        if (this.isClone()) {
-            this.offset += this.itemLength * this.itemWidth;
-            setTimeout(() => this.moveWithoutAnimation(), 200);
-            this.currentItem = this.currentItem - this.itemLength;
-        }
-    }
-
-    isClone() {
-        return this.currentItem === 0 || this.currentItem === this.itemLength + 1;
     }
 
     move() {
         this.container.style.transition = `transform 200ms ease-out`;
-        this.container.style.transform = `translate(${this.offset}px, 0)`;
+        this.container.style.transform = `translate(${this.standardPosition - this.offset}px, 0)`;
     }
 
     moveWithoutAnimation() {
-        this.container.style.transition = 'none';
-        this.container.style.transform = `translate(${this.offset}px, 0)`;
+        this.changeItemOrder();
+        this.container.style.transition = 'transform 0ms';
+        this.container.style.transform = `translate(-${this.itemWidth * this.itemHalfLength}px, 0)`;
+    }
+
+    changeItemOrder() {
+        const firstChild = this.container.firstElementChild;
+        const lastChild = this.container.lastElementChild;
+        if (this.reverse) {
+            this.container.removeChild(lastChild);
+            this.container.prepend(lastChild);
+        } else {
+            this.container.removeChild(firstChild);
+            this.container.appendChild(firstChild);
+        }
     }
 }
 export default MiniCarousel;
