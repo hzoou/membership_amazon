@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Amazon Ember';
+    src: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/AmazonEmber_W_Lt._CB513866389_.woff);
+}
+
+* {
+    font-family: 'Amazon Ember';
+    margin: 0;
+}
+
+
+header {
+    height: 45px;
+    width: 100%;
+    background-color: #232f3e;
+    box-shadow: 0px 0px 10px 0px grey;
+}
+
+.logo {
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/gno/sprites/nav-sprite-global_bluebeacon-2x_optimized_layout1._CB468670774_.png");
+    background-position: 0px -55px;
+    background-size: 350px;
+    padding: 25px 50px;
+    margin-left: 10px;
+    background-color: #232f3e;
+}
