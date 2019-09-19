@@ -12,7 +12,6 @@ export default [
         link: "https://www.amazon.com/gp/product/B07FNZ35DV/ref=prime_bnft_scrl_asin",
     },
     {
-        // image: "https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/81WN._CB481226577_.jpg",
         image: "https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/91yXd._CB482706877_.jpg",
         link: "https://www.amazon.com/gp/product/B07FDKRJQC/ref=prime_bnft_scrl_asin",
     },
