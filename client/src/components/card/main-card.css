@@ -172,18 +172,6 @@
     outline: none;
 }
 
-.link > span {
-    background-size: 135px;
-    background-repeat: no-repeat;
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Sprites_2x._CB493761273_.png);
-    background-position: 10px -199px;
-    width: 15px;
-    position: absolute;
-    bottom: 107px;
-    display: inline-block;
-    margin: 0;
-}
-
 .card-indicator-container {
     visibility: hidden;
 }
