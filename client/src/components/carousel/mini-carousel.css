@@ -22,7 +22,7 @@
 .carousel-content {
     width: 250px;
     height: 180px;
-    box-shadow: 0px -8px 10px 2px #989898;
+    box-shadow: -20px 0px 20px -12px #989898, 20px 0px 20px -15px #989898;;
     overflow: hidden;
 }
 
