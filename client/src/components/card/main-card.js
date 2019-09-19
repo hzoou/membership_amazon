@@ -51,7 +51,7 @@ class MainCard {
         this.carousel = document.querySelector('.main-carousel-container');
         this.container = this.carousel.querySelector('.main-carousel-item-container');
         this.container.innerHTML = this.insertItem(this.makeItemOrder());
-        this.container.childNodes.forEach((d) => {if (d.nodeName === '#text') d.remove()});
+        this.container.childNodes.forEach((d) => { if (d.nodeName === '#text') d.remove()} );
         this.item = this.carousel.querySelector('.main-carousel-item');
         this.items = this.carousel.querySelectorAll('.main-carousel-item');
         this.prev = this.carousel.querySelector('.main-prev');
@@ -66,7 +66,7 @@ class MainCard {
         const colors = ["#00A8E1", '#FF6138', '#E31F64', '#36C2B4', "#FFC400"];
         Object.values(this.data).forEach((value) => {value.forEach((d) => this.allData.push(d))});
         return order.map((o) => {
-            return `<div class="main-carousel-item" data-set="${o}" style="background-image:url(${this.allData[o].image})">
+            return `<div class="main-carousel-item" data-id="${o}" style="background-image:url(${this.allData[o].image})">
                         <div class="main-carousel-item-content">
                             <div class="title-container"><span class="title" style="background-color: ${colors[this.allData[o].category]}">${this.allData[o].title}</span></div>
                             <div class="head">${this.allData[o].head}</div>
@@ -100,9 +100,9 @@ class MainCard {
     insertIndicator() {
         let cnt = 0;
         this.categoryLength.forEach((c, i) => { for (let j = 0; j < c; j++) {
-            if (cnt == 0) this.cardIndicators[i].innerHTML += `<div class="indicator pushed" data-set="${cnt++}"></div>`;
-            else this.cardIndicators[i].innerHTML += `<div class="indicator" data-set="${cnt++}"></div>`;
+            this.cardIndicators[i].innerHTML += `<div class="indicator" data-id="${cnt++}"></div>`;
         }});
+        document.querySelector('.indicator').classList.add('pushed');
     }
 
     init() {
@@ -147,53 +147,46 @@ class MainCard {
         this.changeItemOrder();
         this.container.style.transition = 'transform 0ms';
         this.container.style.transform = `translate(-${this.itemWidth * this.itemHalfLength}px, 0)`;
+        this.changeCard();
     }
 
     changeItemOrder() {
-        if (this.diff != 0) {
-            if (this.reverse) {
-                for (let i = this.diff; i < 0; i++) {
-                    const lastChild = this.container.lastElementChild;
-                    this.container.removeChild(lastChild);
-                    this.container.prepend(lastChild);
-                }
-            } else {
-                for (let i = 0; i < this.diff; i++) {
-                    const firstChild = this.container.firstElementChild;
-                    this.container.removeChild(firstChild);
-                    this.container.appendChild(firstChild);
-                }
-            }
+        if (this.reverse) {
+            for (let i = this.diff + 1; i < 0; i++) this.moveToPrevItemOrder();
+            this.moveToPrevItemOrder();
         } else {
-            if (this.reverse) {
-                const lastChild = this.container.lastElementChild;
-                this.container.removeChild(lastChild);
-                this.container.prepend(lastChild);
-            } else {
-                const firstChild = this.container.firstElementChild;
-                this.container.removeChild(firstChild);
-                this.container.appendChild(firstChild);
-            }
+            for (let i = 0; i < this.diff - 1; i++) this.moveToNextItemOrder();
+            this.moveToNextItemOrder();
         }
         this.diff = 0;
     }
 
-    click(e) {
-        if (!!Array.from(e.target.classList).includes('card')) this.clickCard(e);
-        else if (!!Array.from(e.target.classList).includes('indicator')) this.clickIndicator(e);
+    moveToNextItemOrder() {
+        const firstChild = this.container.firstElementChild;
+        this.container.removeChild(firstChild);
+        this.container.appendChild(firstChild);
     }
 
-    clickCard(e) {
-        const clicked = document.querySelector('.clicked');
-        if (clicked) clicked.classList.remove('clicked');
-        e.target.classList.add('clicked');
+    moveToPrevItemOrder() {
+        const lastChild = this.container.lastElementChild;
+        this.container.removeChild(lastChild);
+        this.container.prepend(lastChild);
+    }
+
+    click(e) {
+        if (!!Array.from(e.target.classList).includes('card')) this.clickCard(e.target, 'handler');
+        else if (!!Array.from(e.target.classList).includes('indicator')) this.clickIndicator(this.items, e.target, 'handler');
+    }
+
+    clickCard(target, flag) {
+        this.overwriteClass('clicked', target);
         this.deleteShadowClass();
-        const prevCard = e.target.previousElementSibling;
-        const nextCard = e.target.nextElementSibling;
-        if (prevCard && nextCard) e.target.classList.add('allShadow');
-        else if (prevCard) e.target.classList.add('leftShadow');
-        else if (nextCard) e.target.classList.add('rightShadow');
-        this.visibleIndicator(e);
+        const prevCard = target.previousElementSibling;
+        const nextCard = target.nextElementSibling;
+        if (prevCard && nextCard) target.classList.add('allShadow');
+        else if (prevCard) target.classList.add('leftShadow');
+        else if (nextCard) target.classList.add('rightShadow');
+        this.visibleIndicator(target, flag);
     }
 
     deleteShadowClass() {
@@ -204,34 +197,55 @@ class MainCard {
         });
     }
 
-    visibleIndicator(e) {
-        const indicators = e.target.lastElementChild;
+    visibleIndicator(target, flag) {
+        const indicators = target.lastElementChild;
         const firstIndicator = indicators.firstElementChild.firstElementChild;
-        const selected = document.querySelector('.selected');
-        if (selected) selected.classList.remove('selected');
-        if (indicators) indicators.classList.add('selected');
-        this.clickIndicator(firstIndicator);
+        this.overwriteClass('selected', indicators);
+        if (flag) this.clickIndicator(this.items, firstIndicator, flag);
+        else this.clickIndicator(indicators.firstElementChild.childNodes, this.currentItem);
     }
 
-    clickIndicator(e) {
-        this.items.forEach((i) => {
-            const pushed = document.querySelector('.pushed');
-            if (pushed) pushed.classList.remove('pushed');
-            const target = (e.target) ? e.target : e;
-            target.classList.add('pushed');
-            if (i.dataset.set == target.dataset.set) {
-                const nth = this.getItemIndex(i);
-                this.diff = nth - this.itemHalfLength;
-                if (this.diff < 0) this.moveToPrev();
-                else if (this.diff > 0) this.moveToNext();
+    clickIndicator(list, target, flag) {
+        list.forEach((i) => {
+            if (i.dataset.id == target.dataset.id) {
+                if (flag) { this.overwriteClass('pushed', target); this.moveByDiff(i); }
+                else this.overwriteClass('pushed', i);
             }
         });
     }
 
+    moveByDiff(item) {
+        const nth = this.getItemIndex(item);
+        this.diff = nth - this.itemHalfLength;
+        if (this.diff < 0) this.moveToPrev();
+        else if (this.diff > 0) this.moveToNext();
+    }
+
     getItemIndex(item) {
-        for(let i = 0; i < item.parentNode.childNodes.length; i++) {
+        for (let i = 0; i < item.parentNode.childNodes.length; i++) {
             if (item.parentNode.childNodes[i] === item) return i;
         }
+    }
+
+    changeCard() {
+        this.currentItem = this.container.children[this.itemHalfLength];
+        this.needCard = this.getNeedCardIdx(this.currentItem.dataset.id);
+        this.clickCard(this.needCard);
+    }
+
+    getNeedCardIdx(id) {
+        let idx, len = 0;
+        for (idx = 0; idx < this.categoryLength.length; idx++) {
+            len += this.categoryLength[idx];
+            if (id < len) break;
+        }
+        return this.cardContainer.children[idx];
+    }
+
+    overwriteClass(name, target) {
+        const element = document.querySelector(`.${name}`);
+        element.classList.remove(name);
+        target.classList.add(name);
     }
 }
 
