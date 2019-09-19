@@ -29,6 +29,19 @@ class MainCard {
                         <div class="card-indicator-container"><div class="card-indicators"></div></div>
                     </div>
                 </div>
+                <div class="main-carousel">
+                    <div class="main-carousel-container">
+                        <div class="main-carousel-control">
+                            <button class="main-prev"></button>
+                        </div>
+                        <div class="main-carousel-content">
+                            <div class="main-carousel-item-container"></div>
+                        </div>
+                        <div class="main-carousel-control">
+                            <button class="main-next"></button>
+                        </div>
+                    </div>
+                </div>
                 `
     }
 }
