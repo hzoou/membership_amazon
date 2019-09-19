@@ -33,7 +33,7 @@ class MiniCarousel {
         this.carousel = document.querySelector('.carousel-container');
         this.container = this.carousel.querySelector('.carousel-item-container');
         this.container.innerHTML = this.insertItem(this.makeItemOrder());
-        this.container.childNodes.forEach((d) => {if(d.nodeName === '#text') d.remove()});
+        this.container.childNodes.forEach((d) => {if (d.nodeName === '#text') d.remove()});
         this.item = this.carousel.querySelector('.carousel-item');
         this.items = this.carousel.querySelectorAll('.carousel-item');
         this.prev = this.carousel.querySelector('.prev');
@@ -43,7 +43,7 @@ class MiniCarousel {
     }
 
     insertItem(order) {
-        return (order.map((o, i) => `<div class="carousel-item" data-set="${i}"><a href="${this.data[o].link}"><img src="${this.data[o].image}"></a></div>`));
+        return (order.map((o) => `<div class="carousel-item" data-set="${o}"><a href="${this.data[o].link}"><img src="${this.data[o].image}"></a></div>`));
     }
 
     makeItemOrder() {
@@ -55,6 +55,7 @@ class MiniCarousel {
         this.leftChildren = this.children.splice(0, this.initIndex);
         this.extraChildren = this.children;
         this.rightChildren = this.extraChildren.splice(0, this.itemHalfLength);
+        this.itemHalfLength = this.extraChildren.length;
         this.children = (this.extraChildren.concat(this.leftChildren)).concat(this.rightChildren);
         return this.children;
     }
