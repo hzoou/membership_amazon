@@ -8,19 +8,104 @@
     margin: 0;
 }
 
-
-header {
+.logo-container {
     height: 45px;
     width: 100%;
     background-color: #232f3e;
     box-shadow: 0px 0px 10px 0px grey;
 }
 
-.logo {
+.header-logo {
     background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/gno/sprites/nav-sprite-global_bluebeacon-2x_optimized_layout1._CB468670774_.png");
     background-position: 0px -55px;
     background-size: 350px;
     padding: 25px 50px;
     margin-left: 10px;
     background-color: #232f3e;
+}
+
+.prime-content {
+    width: 500px;
+    margin: 0 70px;
+    height: inherit;
+}
+
+.prime-container {
+    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Header_01._CB513133335_.png);
+    background-color: #0079b4;
+    width: 1300px;
+    height: 375px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 32px 0 32px 0;
+    margin: 0 auto;
+    color: white;
+}
+
+.prime-logo {
+    width: 80px;
+    position: absolute;
+    bottom: 60px;
+}
+
+.header {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    font-family: Arial;
+}
+
+.sub-header {
+    font-size: 22px;
+    margin-bottom: 22px;
+    width: 400px;
+    line-height: 25px;
+    font-weight: 500;
+}
+
+.middle-prime {
+    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/StaticBlade_PrimeDelivery_01._CB513143338_.png);
+    background-size: auto 360px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 360px;
+    padding-top: 45px;
+    width: 1300px;
+    margin: 0 auto;
+    color: white;
+    position: relative;
+    top: -50px;
+}
+
+.middle-prime-container {
+    width: 500px;
+    padding: 40px 40px 40px 60px;
+}
+
+.middle-prime-title {
+    width: 1200px;
+    margin: 0 auto;
+    color: #002F36;
+    text-align: left;
+    font-size: 28px;
+    font-weight: 300;
+    position: relative;
+    top: -50px;
+}
+
+.middle-prime-container > .head {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    width: 500px;
+    line-height: 48px;
+    padding: 0;
+}
+
+.middle-prime-container > .body {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 25px;
+    margin-bottom: 20px;
+    width: 420px;
 }
