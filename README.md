@@ -13,10 +13,19 @@
 
 ### 🏠 [Homepage](https://github.com/hzoou/membership-amazon#readme)
 
+## preview
+![](https://i.imgur.com/nMfrEEI.jpg)
+
 ## Install
 
 ```sh
 npm install
+```
+
+## Start
+
+```sh
+npm start
 ```
 
 ## Author
