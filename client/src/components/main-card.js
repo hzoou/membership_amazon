@@ -175,6 +175,7 @@ class MainCard {
 
     click(e) {
         if (!!Array.from(e.target.classList).includes('card')) this.clickCard(e.target, 'handler');
+        else if (!!Array.from(e.target.classList).includes('card-title')) this.clickCard(e.target.parentNode, 'handler');
         else if (!!Array.from(e.target.classList).includes('indicator')) this.clickIndicator(this.items, e.target, 'handler');
     }
 
