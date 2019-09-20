@@ -137,7 +137,7 @@ class MainCard {
     }
 
     move() {
-        this.sec = (!!this.diff) ? 180 * this.diff * 1 : 180;
+        this.sec = (!!this.diff) ? 130 * this.diff * 1 : 200;
         if (this.sec < 0) this.sec *= -1;
         this.container.style.transition = `transform ${this.sec}ms ease-out`;
         this.container.style.transform = `translate(${this.standardPosition - this.offset}px, 0)`;
