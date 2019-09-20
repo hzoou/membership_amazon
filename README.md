@@ -9,12 +9,38 @@
   </a>
 </p>
 
-> 2019 Boostcamp Membership Mission 2
+### 2019 Boostcamp Membership Mission 2
+
+> Front-End
+ ```
+ client
+ ├── src
+ |   └── components
+ |       └── main-card.js
+ |       └── mini-carousel.js
+ |   └── css
+ |       └── index.css
+ |       └── main-card.css
+ |       └── mini-carousel.css
+ |   └── data
+ |       └── main-card.js
+ |       └── mini-carousel.js
+ ├── index.html
+ └── index.js
+ ```
+ > Back-End
+ ```
+ server
+ ├── bin
+ |   └── www
+ └── app.js
+ ```
+
+> Preview
+
+![](https://i.imgur.com/nMfrEEI.jpg)
 
 ### 🏠 [Homepage](https://github.com/hzoou/membership-amazon#readme)
-
-## preview
-![](https://i.imgur.com/nMfrEEI.jpg)
 
 ## Install
 
