@@ -146,7 +146,7 @@ class MainCard {
     moveWithoutAnimation() {
         this.changeItemOrder();
         this.container.style.transition = 'transform 0ms';
-        this.container.style.transform = `translate(-${this.itemWidth * this.itemHalfLength}px, 0)`;
+        this.container.style.transform = `translate(${this.standardPosition}px, 0)`;
         this.changeCard();
     }
 
