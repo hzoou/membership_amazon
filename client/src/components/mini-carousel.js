@@ -1,4 +1,4 @@
-import miniCarouselData from "../../data/mini-carousel.js";
+import miniCarouselData from "../data/mini-carousel.js";
 
 class MiniCarousel {
     constructor() {

@@ -1,4 +1,4 @@
-import MainCardData from "../../data/main-card.js";
+import MainCardData from "../data/main-card.js";
 
 class MainCard {
     constructor() {
