@@ -1,5 +1,5 @@
-import MiniCarousel from "./src/components/mini-carousel.js";
-import MainCard from "./src/components/main-card.js";
+import MiniCarousel from "./components/mini-carousel.js";
+import MainCard from "./components/main-card.js";
 
 const render = () => {
     const mainCard = new MainCard();

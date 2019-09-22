@@ -4,7 +4,7 @@
   "description": "2019 Boostcamp Membership Mission 2",
   "main": "index.js",
   "scripts": {
-    "start": "node server/bin/www",
+    "start": "node app/bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,8 +21,8 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11"
   },
   "homepage": "https://github.com/hzoou/membership-amazon#readme"
 }

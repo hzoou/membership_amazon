@@ -10,29 +10,25 @@
 </p>
 
 ### 2019 Boostcamp Membership Mission 2
-
-> Front-End
+ > directory structure
  ```
- client
- ├── src
- |   └── components
- |       └── main-card.js
- |       └── mini-carousel.js
- |   └── css
- |       └── index.css
- |       └── main-card.css
- |       └── mini-carousel.css
- |   └── data
- |       └── main-card.js
- |       └── mini-carousel.js
- ├── index.html
- └── index.js
- ```
- > Back-End
- ```
- server
+ app
  ├── bin
  |   └── www
+ ├── public
+ |   └── images
+ |   └── javascripts
+ |       └── components
+ |           └── main-card.js
+ |           └── mini-carousel.js
+ |       └── data
+ |           └── main-card.js
+ |           └── mini-carousel.js
+ |       └── index.js
+ |   └── stylesheets
+ |   └── index.html
+ ├── routes
+ |   └── index.js
  └── app.js
  ```
 
