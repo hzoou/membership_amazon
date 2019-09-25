@@ -1,4 +1,4 @@
-import Table from "./components/table.js";
+import Table from "./components/Table.js";
 
 const title = document.querySelector('.title');
 const renderHtml = (page) => {

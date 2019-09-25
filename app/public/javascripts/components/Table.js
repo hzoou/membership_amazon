@@ -37,7 +37,7 @@ class Table {
     makeTable() {
         this.container = document.querySelector('.content');
         this.column = Object.values(this.result['column']).map((col) => col['Field']);
-        const data = this.result['data'].map((d) => {
+        const tableData = this.result['data'].map((d) => {
             return `<tr id="${d['idx']}">` +
                 this.column.map((c, i) => {
                     if (this.column[i] == 'image') return `<td><img src="../../${d[c]}" class="image"></td>`;
@@ -50,12 +50,8 @@ class Table {
             </tr>`;
         });
         this.container.innerHTML = `
-            <tr class="column">
-                ${this.column.map((c) => `<th>${c}</th>`)}
-                <th>Edit</th>
-                <th>Remove</th>
-            </tr>
-            ${data}
+            <tr class="column">${this.column.map((c) => `<th>${c}</th>`)}<th>Edit</th><th>Remove</th></tr>
+            ${tableData}
         `;
         this.container.lastChild.remove();
     }
@@ -77,11 +73,9 @@ class Table {
         Array.from(this.selectedColumns).forEach((c, i) => {
             if (i == 0) return;
             if (i >= this.selectedColumns.length - 2) return;
-            this.value = c.textContent;
-            c.textContent = '';
-            if (this.column[i] == 'image') c.innerHTML = `<input type='file' />`;
-            else if (this.column[i] == 'authentic') c.innerHTML = `<input type='number' min="0" max="1" value="${this.value}"/>`;
-            else c.innerHTML = `<textarea>${this.value}</textarea>`;
+            if (this.column[i] == 'image') c.innerHTML = `<input type='file'/>`;
+            else if (this.column[i] == 'authentic') c.innerHTML = `<input type='number' min="0" max="1" value="${c.textContent}"/>`;
+            else c.innerHTML = `<textarea>${c.textContent}</textarea>`;
         });
         this.attachEventToTextarea();
         this.edit.setAttribute('src', '../../images/check.png');
@@ -102,7 +96,6 @@ class Table {
 
     async editComplete() {
         this.selectedIndex = this.selectedRow.getAttribute('id');
-        this.body = {};
         this.formData = new FormData();
         Array.from(this.selectedColumns).forEach((c, i) => {
             if (i == 0) return;
@@ -110,8 +103,8 @@ class Table {
             if (this.column[i] == 'image') this.formData.append(this.column[i], c.firstChild.files[0]);
             else this.formData.append(this.column[i], c.firstChild.value);
         });
-        const confirm = confirm('수정하시겠습니까?\n수정 후에는 복구할 수 없습니다.');
-        if (confirm) {
+        this.confirm = confirm('수정하시겠습니까?\n수정 후에는 복구할 수 없습니다.');
+        if (this.confirm) {
             this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'put', this.formData);
             if (this.d.status == 'SUCCESS') location.reload();
         }
@@ -120,8 +113,8 @@ class Table {
     async removeData(e) {
         this.selectedRow = e.target.parentNode.parentNode;
         this.selectedIndex = this.selectedRow.getAttribute('id');
-        const confirm = confirm('삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.');
-        if (confirm) {
+        this.confirm = confirm('삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.');
+        if (this.confirm) {
             this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'delete');
             if (this.d.status == 'SUCCESS') location.reload();
         }

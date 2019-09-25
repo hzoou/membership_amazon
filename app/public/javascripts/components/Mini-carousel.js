@@ -29,7 +29,13 @@ class MiniCarousel {
                 </div>`;
     }
 
-    getElementById() {
+    afterRender() {
+        this.getDOM();
+        this.init();
+        this.attachEvent();
+    }
+
+    getDOM() {
         this.carousel = document.querySelector('.carousel-container');
         this.container = this.carousel.querySelector('.carousel-item-container');
         this.container.innerHTML = this.insertItem(this.makeItemOrder());
@@ -38,8 +44,7 @@ class MiniCarousel {
         this.items = this.carousel.querySelectorAll('.carousel-item');
         this.prev = this.carousel.querySelector('.prev');
         this.next = this.carousel.querySelector('.next');
-        this.init();
-        this.attachEvent();
+
     }
 
     insertItem(order) {

@@ -45,7 +45,14 @@ class MainCard {
                 `
     }
 
-    getElementById() {
+    afterRender() {
+        this.getDOM();
+        this.init();
+        this.insertIndicator();
+        this.attachEvent();
+    }
+
+    getDOM() {
         this.cardIndicators = document.querySelectorAll('.card-indicators');
         this.cardContainer = document.querySelector('.main-card');
         this.carousel = document.querySelector('.main-carousel-container');
@@ -56,9 +63,6 @@ class MainCard {
         this.items = this.carousel.querySelectorAll('.main-carousel-item');
         this.prev = this.carousel.querySelector('.main-prev');
         this.next = this.carousel.querySelector('.main-next');
-        this.init();
-        this.insertIndicator();
-        this.attachEvent();
     }
 
     insertItem(order) {
