@@ -30,6 +30,14 @@ body {
     cursor: pointer;
 }
 
+.header-nav {
+    float: right;
+    color: white;
+    line-height: 45px;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
 .container {
     display: flex;
     height: 100%;
@@ -116,6 +124,7 @@ th {
 }
 
 input, textarea {
-    max-width: 100%;
+    box-sizing: border-box;
+    width: 100%;
     resize: none;
 }
