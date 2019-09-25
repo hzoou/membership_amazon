@@ -192,3 +192,6 @@ typings/
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+
+# upload image
+static_root/
