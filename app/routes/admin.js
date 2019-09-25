@@ -70,7 +70,7 @@ router.put('/:table/:idx', upload.single('image'), function(req, res){
     const idx = req.params.idx;
     let value = '';
     Object.keys(req.body).forEach((b) => value += `${b}='${req.body[b]}',`);
-    value += `image='${req.file.filename}'`;
+    value += `image='static_root/${req.file.filename}'`;
     mysql.connect(
         {
             host: '106.10.56.165',
