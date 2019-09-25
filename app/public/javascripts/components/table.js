@@ -10,6 +10,7 @@ class Table {
     async afterRender() {
         if (!this.tableName) return;
         this.result = await this.fetchAPI(`./admin/${this.tableName}`, 'GET');
+        this.makeTitle();
         this.makeTable();
         this.attachEvent();
     }
@@ -28,13 +29,19 @@ class Table {
         });
     }
 
+    makeTitle() {
+        this.title = document.querySelector('.title');
+        this.title.innerHTML = `<b>${this.tableName.toUpperCase()}</b> TABLE <img src="../../images/add.png" class="add">`;
+    }
+
     makeTable() {
         this.container = document.querySelector('.content');
         this.column = Object.values(this.result['column']).map((col) => col['Field']);
-        console.log(this.column);
         const data = this.result['data'].map((d) => {
             return `<tr id="${d['idx']}">` +
-                this.column.map((c) => {
+                this.column.map((c, i) => {
+                    if (this.column[i] == 'image') return `<td><img src="../../${d[c]}" class="image"></td>`;
+                    if (this.column[i] == 'color') return `<td style="color:${d[c]}">${d[c]}</td>`;
                     return `<td>${d[c]}</td>`;
                 }) +
                 `
@@ -44,9 +51,9 @@ class Table {
         });
         this.container.innerHTML = `
             <tr class="column">
-                ${this.column.map((c) => `<td>${c}</td>`)}
-                <td>Edit</td>
-                <td>Remove</td>
+                ${this.column.map((c) => `<th>${c}</th>`)}
+                <th>Edit</th>
+                <th>Remove</th>
             </tr>
             ${data}
         `;
@@ -74,13 +81,26 @@ class Table {
             c.textContent = '';
             if (this.column[i] == 'image') c.innerHTML = `<input type='file' />`;
             else if (this.column[i] == 'authentic') c.innerHTML = `<input type='number' min="0" max="1" value="${this.value}"/>`;
-            else c.innerHTML = `<input type='text' size="${this.value.length}" value=${this.value} />`;
+            else c.innerHTML = `<textarea>${this.value}</textarea>`;
         });
+        this.attachEventToTextarea();
         this.edit.setAttribute('src', '../../images/check.png');
-        this.edit.addEventListener('click', this.ok.bind(this));
+        this.edit.addEventListener('click', this.editComplete.bind(this));
     }
 
-    async ok() {
+    attachEventToTextarea() {
+        this.textareas = document.querySelectorAll('textarea');
+        this.textareas.forEach((t) => t.addEventListener('focus', this.resizeHeight));
+        this.textareas.forEach((t) => t.addEventListener('keydown', this.resizeHeight));
+        this.textareas.forEach((t) => t.addEventListener('keyup', this.resizeHeight));
+    }
+
+    resizeHeight(e) {
+        e.target.style.height = "1px";
+        e.target.style.height = `${12 + e.target.scrollHeight}px`;
+    }
+
+    async editComplete() {
         this.selectedIndex = this.selectedRow.getAttribute('id');
         this.body = {};
         this.formData = new FormData();
@@ -90,10 +110,8 @@ class Table {
             if (this.column[i] == 'image') this.formData.append(this.column[i], c.firstChild.files[0]);
             else this.formData.append(this.column[i], c.firstChild.value);
         });
-
-        const ok = confirm('수정하시겠습니까?\n수정 후에는 복구할 수 없습니다.');
-        if (ok) {
-            console.log(this.formData);
+        const confirm = confirm('수정하시겠습니까?\n수정 후에는 복구할 수 없습니다.');
+        if (confirm) {
             this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'put', this.formData);
             if (this.d.status == 'SUCCESS') location.reload();
         }
@@ -102,8 +120,8 @@ class Table {
     async removeData(e) {
         this.selectedRow = e.target.parentNode.parentNode;
         this.selectedIndex = this.selectedRow.getAttribute('id');
-        const ok = confirm('삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.');
-        if (ok) {
+        const confirm = confirm('삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.');
+        if (confirm) {
             this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'delete');
             if (this.d.status == 'SUCCESS') location.reload();
         }
