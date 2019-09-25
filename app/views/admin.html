@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Amazon.com: Admin</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://i.imgur.com/oJD3TNB.png"/>
     <script type="module" src="javascripts/admin.js" defer></script>
     <link rel="stylesheet" href="stylesheets/admin.css">
     <title>Title</title>
 </head>
 <body>
-<header><span>Amazon Admin</span></header>
+<header>
+    <div class="logo-container">
+        <span onclick="location.href='/admin'" class="header-logo">&nbsp;</span>
+    </div>
+</header>
 <div class="container">
     <ul class="nav">
         <li class="nav-item"><a href="#user">user</a></li>
@@ -16,7 +22,10 @@
         <li class="nav-item"><a href="#main_carousel">main_carousel</a></li>
         <li class="nav-item"><a href="#test">test</a></li>
     </ul>
-    <table class="content"></table>
+    <div class="content-container">
+        <div class="title"></div>
+        <table class="content"></table>
+    </div>
 </div>
 </body>
 </html>

@@ -1,8 +1,8 @@
 import Table from "./components/table.js";
 
-const content = document.querySelector('.content');
+const title = document.querySelector('.title');
 const renderHtml = (page) => {
-    content.innerHTML = page.render();
+    title.innerHTML = page.render();
     page.afterRender();
 };
 
@@ -31,7 +31,6 @@ const routes = {
 
 const router = () => {
     const hash = location.hash.replace('#', '');
-    console.log(hash);
     (routes[hash] || routes.otherwise)();
 };
 
