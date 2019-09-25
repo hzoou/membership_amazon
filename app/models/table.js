@@ -6,8 +6,8 @@ module.exports = {
         const result = {};
         db.connect()
             .then(async (client) => {
-                result['column'] = await table.show(client, req.params.table);
-                result['data'] = await table.select(client, req.params.table);
+                result['column'] = await table.showColumn(client, req.params.table);
+                result['data'] = await table.selectAll(client, req.params.table);
                 res.send(result);
                 db.close();
             })
@@ -18,7 +18,7 @@ module.exports = {
     deleteColumn: (req, res) => {
         db.connect()
             .then(async (client) => {
-                await table.delete(client, req.params.table, req.params.idx);
+                await table.delete(client, req.params.table, `idx=${req.params.idx}`);
                 res.status(200).send({status: 'SUCCESS'});
                 db.close();
             })
@@ -32,7 +32,7 @@ module.exports = {
         value += `image='static_root/${req.file.filename}'`;
         db.connect()
             .then(async (client) => {
-                await table.update(client, req.params.table, req.params.idx, value);
+                await table.update(client, req.params.table, `idx=${req.params.idx}`, value);
                 res.status(200).send({status: 'SUCCESS'});
                 db.close();
             })

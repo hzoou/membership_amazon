@@ -1,5 +1,5 @@
 module.exports = {
-    show: (con, table) => {
+    showColumn: (con, table) => {
       return new Promise((resolve) => {
           con.query(`SHOW FULL COLUMNS FROM ${table}`, function (err, fields) {
               if (err) throw err;
@@ -8,7 +8,7 @@ module.exports = {
       });
     },
 
-    select: (con, table) => {
+    selectAll: (con, table) => {
         return new Promise((resolve) => {
             con.query(`SELECT * FROM ${table}`, function (err, results) {
                 if (err) throw err;
@@ -17,18 +17,18 @@ module.exports = {
         });
     },
 
-    delete: (con, table, idx) => {
+    delete: (con, table, condition) => {
         return new Promise((resolve) => {
-            con.query(`DELETE FROM ${table} WHERE idx=${idx}`, function (err) {
+            con.query(`DELETE FROM ${table} WHERE ${condition}`, function (err) {
                 if (err) throw err;
                 resolve();
             });
         })
     },
 
-    update: (con, table, idx, value) => {
+    update: (con, table, condition, value) => {
         return new Promise((resolve) => {
-            con.query(`UPDATE ${table} SET ${value} WHERE idx=${idx}`, function (err) {
+            con.query(`UPDATE ${table} SET ${value} WHERE ${condition}`, function (err) {
                 if (err) throw err;
                 resolve();
             });
