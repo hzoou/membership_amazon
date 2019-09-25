@@ -15,20 +15,41 @@
  app
  ├── bin
  |   └── www
+ ├── database
+ |   └── config.js
+ |   └── connection.js
+ ├── middlewares
+ |   └── multer.js
+ ├── models
+ |   └── table.js
  ├── public
  |   └── images
  |   └── javascripts
  |       └── components
- |           └── main-card.js
- |           └── mini-carousel.js
+ |           └── Main-card.js
+ |           └── Mini-carousel.js
+ |           └── Table.js
  |       └── data
- |           └── main-card.js
- |           └── mini-carousel.js
+ |           └── Main-card.js
+ |           └── Mini-carousel.js
+ |       └── admin.js
  |       └── index.js
+ |   └── static_root
  |   └── stylesheets
- |   └── index.html
+ |       └── admin.css
+ |       └── index.css
+ |       └── main-card.css
+ |       └── mini-carousel.css
  ├── routes
+ |   └── admin.js
  |   └── index.js
+ |   └── signin.js
+ ├── schema
+ |   └── table.js
+ ├── views
+ |   └── admin.html
+ |   └── index.html
+ |   └── signin.html
  └── app.js
  ```
 
