@@ -40,19 +40,14 @@ body {
 
 .container {
     display: flex;
-    height: 100%;
+    min-height: calc(100% - 45px);
 }
 
 .nav {
     min-width: 200px;
-    height: 100%;
     list-style: none;
     padding: 0;
     background-color: #212529;
-}
-
-.nav-item {
-
 }
 
 .nav-item > a {
@@ -65,6 +60,7 @@ body {
 
 .content-container {
     width: 100%;
+    padding: 25px;
 }
 
 .title {
@@ -78,10 +74,6 @@ body {
 
 .column {
 
-}
-
-.table {
-    content: "\f0ce";
 }
 
 .edit, .remove, .check {
@@ -101,12 +93,12 @@ table {
 
 th, td {
     word-break: break-all;
-    border: 1px solid #444444;
+    border: 1px solid #a3a3a3;
     padding: 10px;
 }
 
 th {
-    background: black;
+    background: #232f3e;
     color: white;
 }
 
