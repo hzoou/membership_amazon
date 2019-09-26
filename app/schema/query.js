@@ -1,4 +1,14 @@
 module.exports = {
+    insert : (con, table, value) => {
+        return new Promise((resolve) => {
+            console.log(`INSERT INTO ${table} VALUES (${value})`);
+            con.query(`INSERT INTO ${table} VALUES (${value})`,  function(err, results) {
+                if (err) throw err;
+                resolve(results);
+            });
+        });
+    },
+
     showColumn: (con, table) => {
       return new Promise((resolve) => {
           con.query(`SHOW FULL COLUMNS FROM ${table}`,  function(err, results) {
@@ -8,13 +18,22 @@ module.exports = {
       });
     },
 
-    showCount: (con, table) => {
+    showGroupCount: (con, table, group) => {
         return new Promise((resolve) => {
-            con.query(`SELECT COUNT(*) FROM ${table} GROUP BY category_idx`, function (err, results) {
+            con.query(`SELECT COUNT(*) FROM ${table} GROUP BY ${group}`, function (err, results) {
                 if (err) throw err;
                 resolve(results);
             })
         })
+    },
+
+    select: (con, table, condition) => {
+        return new Promise((resolve) => {
+            con.query(`SELECT * FROM ${table} WHERE ${condition}`, function (err, results) {
+                if (err) throw err;
+                resolve(results);
+            });
+        });
     },
 
     selectAll: (con, table) => {

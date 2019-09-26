@@ -31,7 +31,8 @@ class Table {
 
     makeTitle() {
         this.title = document.querySelector('.title');
-        this.title.innerHTML = `<b>${this.tableName.toUpperCase()}</b> TABLE <img src="../../images/add.png" class="add">`;
+        if (this.tableName != 'user') this.title.innerHTML = `<b>${this.tableName.toUpperCase()}</b> TABLE <img src="../../images/add.png" class="add">`;
+        else this.title.innerHTML = `<b>${this.tableName.toUpperCase()}</b> TABLE`;
     }
 
     makeTable() {
@@ -57,12 +58,61 @@ class Table {
     }
 
     attachEvent() {
-        this.edits = document.querySelectorAll('.edit');
         this.editHandler = this.editData.bind(this);
         this.removeHandler = this.removeData.bind(this);
+        this.addHandler = this.addData.bind(this);
+        this.edits = document.querySelectorAll('.edit');
         this.edits.forEach((e) => e.addEventListener('click', this.editHandler));
         this.removes = document.querySelectorAll('.remove');
         this.removes.forEach((e) => e.addEventListener('click', this.removeHandler));
+        this.add = document.querySelector('.add');
+        if (this.add) this.add.addEventListener('click', this.addHandler);
+    }
+
+    addData() {
+        this.add.removeEventListener('click', this.addHandler);
+        this.th = document.querySelector('.column');
+        this.tr = document.createElement('tr');
+        for (let i = 0; i < this.th.children.length; i++) {
+            this.td = document.createElement('td');
+            if (i == this.th.children.length -1) this.appendTd();
+            else if (!this.column[i]) this.appendImgToTd();
+            else if (this.column[i] == 'idx') this.appendTd();
+            else if (this.column[i] == 'image') this.appendFileToTd();
+            else if (this.column[i] == 'authentic') this.appendNumberToTd(0, 1, 0);
+            else this.appendTextareaToTd();
+        }
+        this.th.after(this.tr);
+        this.attachEventToTextarea();
+        this.check = document.querySelector('.check');
+        this.check.addEventListener('click', this.addComplete.bind(this));
+    }
+
+    addComplete(e) {
+        this.selectedRow = e.target.parentNode.parentNode;
+        this.selectedColumns = this.selectedRow.children;
+        this.setFormData();
+        this.confirm = confirm('등록하시겠습니까?');
+        if (this.confirm) this.availableFetch(`./admin/${this.tableName}`);
+    }
+
+    async availableFetch(uri) {
+        if (this.checkValidation()) {
+            this.d = await this.fetchAPI(uri, 'put', this.formData);
+            if (this.d.status == 'SUCCESS') location.reload();
+        } else alert('항목을 다 채워주세요.');
+    }
+
+    setFormData() {
+        this.validate = [];
+        this.selectedIndex = this.selectedRow.getAttribute('id');
+        this.formData = new FormData();
+        Array.from(this.selectedColumns).forEach((c, i) => {
+            if (i == 0 || i >= this.selectedColumns.length - 2) return;
+            this.validate.push(this.checkValue(c.firstChild));
+            if (this.column[i] == 'image') this.formData.append(this.column[i], c.firstChild.files[0]);
+            else this.formData.append(this.column[i], c.firstChild.value);
+        });
     }
 
     editData(e) {
@@ -71,8 +121,8 @@ class Table {
         this.selectedRow = e.target.parentNode.parentNode;
         this.selectedColumns = this.selectedRow.children;
         Array.from(this.selectedColumns).forEach((c, i) => {
-            if (i == 0) return;
-            if (i >= this.selectedColumns.length - 2) return;
+            if (i == 0 || i >= this.selectedColumns.length - 2) return;
+            if (this.column[i] == 'id' || this.column[i] == 'pw') return;
             if (this.column[i] == 'image') c.innerHTML = `<input type='file'/>`;
             else if (this.column[i] == 'authentic') c.innerHTML = `<input type='number' min="0" max="1" value="${c.textContent}"/>`;
             else c.innerHTML = `<textarea>${c.textContent}</textarea>`;
@@ -94,20 +144,45 @@ class Table {
         e.target.style.height = `${12 + e.target.scrollHeight}px`;
     }
 
-    async editComplete() {
-        this.selectedIndex = this.selectedRow.getAttribute('id');
-        this.formData = new FormData();
-        Array.from(this.selectedColumns).forEach((c, i) => {
-            if (i == 0) return;
-            if (i >= this.selectedColumns.length - 2) return;
-            if (this.column[i] == 'image') this.formData.append(this.column[i], c.firstChild.files[0]);
-            else this.formData.append(this.column[i], c.firstChild.value);
-        });
+    appendTd() {
+        this.tr.appendChild(this.td);
+    }
+
+    appendImgToTd() {
+        const img = document.createElement('img');
+        img.className = 'check';
+        img.src = '../../images/check.png';
+        this.td.appendChild(img);
+        this.tr.appendChild(this.td);
+    }
+
+    appendFileToTd() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        this.td.appendChild(input);
+        this.tr.appendChild(this.td);
+    }
+
+    appendNumberToTd(min, max, value) {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = min;
+        input.max = max;
+        input.value = value;
+        this.td.appendChild(input);
+        this.tr.appendChild(this.td);
+    }
+
+    appendTextareaToTd() {
+        const textarea =document.createElement('textarea');
+        this.td.appendChild(textarea);
+        this.tr.appendChild(this.td);
+    }
+
+    editComplete() {
+        this.setFormData();
         this.confirm = confirm('수정하시겠습니까?\n수정 후에는 복구할 수 없습니다.');
-        if (this.confirm) {
-            this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'put', this.formData);
-            if (this.d.status == 'SUCCESS') location.reload();
-        }
+        if (this.confirm) this.availableFetch(`./admin/${this.tableName}/${this.selectedIndex}`);
     }
 
     async removeData(e) {
@@ -118,6 +193,16 @@ class Table {
             this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'delete');
             if (this.d.status == 'SUCCESS') location.reload();
         }
+    }
+
+    checkValue(target) {
+        if (target.files && !target.files.length) return false;
+        if (!target.value) return false;
+        return true;
+    }
+
+    checkValidation() {
+        return this.validate.every((b) => b);
     }
 }
 
