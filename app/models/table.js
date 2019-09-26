@@ -1,43 +1,22 @@
-const db = require('../database/connection');
+const db = require('../database/connection').connect();
 const table = require('../schema/table');
 
 module.exports = {
-    selectAll: (req, res) => {
+    selectAll: async (req, res) => {
         const result = {};
-        db.connect()
-            .then(async (client) => {
-                result['column'] = await table.showColumn(client, req.params.table);
-                result['data'] = await table.selectAll(client, req.params.table);
-                res.send(result);
-                db.close();
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        result['column'] = await table.showColumn(db, req.params.table);
+        result['data'] = await table.selectAll(db, req.params.table);
+        res.send(result);
     },
-    deleteColumn: (req, res) => {
-        db.connect()
-            .then(async (client) => {
-                await table.delete(client, req.params.table, `idx=${req.params.idx}`);
-                res.status(200).send({status: 'SUCCESS'});
-                db.close();
-            })
-            .catch(err => {
-                console.log(err)
-            });
+    deleteColumn: async (req, res) => {
+        await table.delete(db, req.params.table, `idx=${req.params.idx}`);
+        res.status(200).send({status: 'SUCCESS'});
     },
-    updateColumn: (req, res) => {
+    updateColumn: async (req, res) => {
         let value = '';
         Object.keys(req.body).forEach((b) => value += `${b}='${req.body[b]}',`);
         value += `image='static_root/${req.file.filename}'`;
-        db.connect()
-            .then(async (client) => {
-                await table.update(client, req.params.table, `idx=${req.params.idx}`, value);
-                res.status(200).send({status: 'SUCCESS'});
-                db.close();
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        await table.update(db, req.params.table, `idx=${req.params.idx}`, value);
+        res.status(200).send({status: 'SUCCESS'});
     }
 };
