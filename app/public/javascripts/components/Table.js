@@ -98,8 +98,8 @@ class Table {
 
     async availableFetch(uri) {
         if (this.checkValidation()) {
-            this.d = await this.fetchAPI(uri, 'put', this.formData);
-            if (this.d.status == 'SUCCESS') location.reload();
+            this.res = await this.fetchAPI(uri, 'put', this.formData);
+            if (this.res.status == 'SUCCESS') location.reload();
         } else alert('항목을 다 채워주세요.');
     }
 
@@ -191,8 +191,8 @@ class Table {
         this.selectedIndex = this.selectedRow.getAttribute('id');
         this.confirm = confirm('삭제하시겠습니까?\n삭제 후에는 복구할 수 없습니다.');
         if (this.confirm) {
-            this.d = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'delete');
-            if (this.d.status == 'SUCCESS') location.reload();
+            this.res = await this.fetchAPI(`./admin/${this.tableName}/${this.selectedIndex}`, 'delete');
+            if (this.res.status == 'SUCCESS') location.reload();
         }
     }
 
