@@ -109,6 +109,7 @@ class Table {
         this.formData = new FormData();
         Array.from(this.selectedColumns).forEach((c, i) => {
             if (i == 0 || i >= this.selectedColumns.length - 2) return;
+            if (this.column[i] == 'id' || this.column[i] == 'pw') return;
             this.validate.push(this.checkValue(c.firstChild));
             if (this.column[i] == 'image') this.formData.append(this.column[i], c.firstChild.files[0]);
             else this.formData.append(this.column[i], c.firstChild.value);
