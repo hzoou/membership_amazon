@@ -18,7 +18,7 @@ module.exports = {
         res.send(result);
     },
 
-    removeData: async (req, res) => {
+    deleteData: async (req, res) => {
         await table.delete(db, req.params.table, `idx=${req.params.idx}`);
         res.status(200).send({status: 'SUCCESS'});
     },
