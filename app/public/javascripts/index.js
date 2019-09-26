@@ -12,4 +12,3 @@ const render = () => {
 };
 
 document.addEventListener('DOMContentLoaded', render);
-window.addEventListener('DOMContentLoaded', render);
