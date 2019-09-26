@@ -1,8 +1,5 @@
-import miniCarouselData from "../data/mini-carousel.js";
-
 class MiniCarousel {
     constructor() {
-        this.data = miniCarouselData;
         this.sec = { run: 3, stop: 7 };
     }
 
@@ -29,10 +26,25 @@ class MiniCarousel {
                 </div>`;
     }
 
-    afterRender() {
+    async afterRender() {
+        this.data = await this.fetchAPI(`./mini`, 'GET');
         this.getDOM();
         this.init();
         this.attachEvent();
+    }
+
+    fetchAPI(uri, method, body) {
+        return fetch(uri, {
+            method: method,
+            body: body
+        }).then((res) => {
+            if (res.ok) return res.json();
+            throw new Error('Network response was not ok.');
+        }).then((data) => {
+            return data;
+        }).catch((err) => {
+            return alert(err.message);
+        });
     }
 
     getDOM() {
@@ -44,7 +56,6 @@ class MiniCarousel {
         this.items = this.carousel.querySelectorAll('.carousel-item');
         this.prev = this.carousel.querySelector('.prev');
         this.next = this.carousel.querySelector('.next');
-
     }
 
     insertItem(order) {

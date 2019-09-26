@@ -1,33 +1,11 @@
-import MainCardData from "../data/main-card.js";
-
 class MainCard {
     constructor() {
-        this.data = MainCardData;
+
     }
 
     render() {
         return `
                 <div class="main-card">
-                    <div class="card ship clicked rightShadow">
-                        <div class="card-title">Ship</div>
-                        <div class="card-indicator-container selected"><div class="card-indicators"></div></div>
-                    </div>
-                    <div class="card stream">
-                        <div class="card-title">Stream</div>
-                        <div class="card-indicator-container"><div class="card-indicators"></div></div>
-                    </div>
-                    <div class="card shop">
-                        <div class="card-title">Shop</div>
-                        <div class="card-indicator-container"><div class="card-indicators"></div></div>
-                    </div>
-                    <div class="card read">
-                        <div class="card-title">Read</div>
-                        <div class="card-indicator-container"><div class="card-indicators"></div></div>
-                    </div>
-                    <div class="card more">
-                        <div class="card-title">More</div>
-                        <div class="card-indicator-container"><div class="card-indicators"></div></div>
-                    </div>
                 </div>
                 <div class="main-carousel">
                     <div class="main-carousel-container">
@@ -45,16 +23,47 @@ class MainCard {
                 `
     }
 
-    afterRender() {
+    async afterRender() {
+        this.result = await this.fetchAPI(`./main`, 'GET');
+        this.category = this.result['category'];
+        this.data = this.result['data'];
         this.getDOM();
+        this.makeCard();
         this.init();
         this.insertIndicator();
         this.attachEvent();
     }
 
+    fetchAPI(uri, method, body) {
+        return fetch(uri, {
+            method: method,
+            body: body
+        }).then((res) => {
+            if (res.ok) return res.json();
+            throw new Error('Network response was not ok.');
+        }).then((data) => {
+            return data;
+        }).catch((err) => {
+            return alert(err.message);
+        });
+    }
+
+    makeCard() {
+        this.card = '';
+        Object.values(this.category).forEach((c, i) => {
+            if (i == 0) this.card += `<div class="card clicked rightShadow" style="background-image: url('${c['image']}'); background-color: ${c['color']}">
+                                        <div class="card-title">${c['name']}</div>
+                                        <div class="card-indicator-container selected"><div class="card-indicators"></div></div></div>`;
+            else this.card += `<div class="card" style="background-image: url('${c['image']}'); background-color: ${c['color']}">
+                                    <div class="card-title">${c['name']}</div>
+                                    <div class="card-indicator-container"><div class="card-indicators"></div></div></div>`;
+        });
+        this.cardContainer.innerHTML = this.card;
+    }
+
     getDOM() {
-        this.cardIndicators = document.querySelectorAll('.card-indicators');
         this.cardContainer = document.querySelector('.main-card');
+        this.makeCard();
         this.carousel = document.querySelector('.main-carousel-container');
         this.container = this.carousel.querySelector('.main-carousel-item-container');
         this.container.innerHTML = this.insertItem(this.makeItemOrder());
@@ -66,17 +75,16 @@ class MainCard {
     }
 
     insertItem(order) {
-        this.allData = [];
-        const colors = ["#00A8E1", '#FF6138', '#E31F64', '#36C2B4', "#FFC400"];
-        Object.values(this.data).forEach((value) => {value.forEach((d) => this.allData.push(d))});
+        const colors = [];
+        Object.values(this.category).forEach((c) => colors.push(c['color']));
         return order.map((o) => {
-            return `<div class="main-carousel-item" data-id="${o}" style="background-image:url(${this.allData[o].image})">
+            return `<div class="main-carousel-item" data-id="${o}" style="background-image:url(${this.data[o].image})">
                         <div class="main-carousel-item-content">
-                            <div class="title-container"><span class="title" style="background-color: ${colors[this.allData[o].category]}">${this.allData[o].title}</span></div>
-                            <div class="head">${this.allData[o].head}</div>
-                            <div class="body">${this.allData[o].body}</div>
+                            <div class="title-container"><span class="title" style="background-color: ${colors[(this.data[o].category_idx) - 1]}">${this.data[o].keyword}</span></div>
+                            <div class="head">${this.data[o].title}</div>
+                            <div class="body">${this.data[o].subtitle}</div>
                             <div class="link">
-                                <a href=${this.allData[o].link}>${this.allData[o].tail}
+                                <a href=${this.data[o].link}>${this.data[o].linktitle}
                                     <img class="arrow" src="https://i.imgur.com/jEz38Eo.png">
                                 </a>
                             </div>
@@ -88,8 +96,8 @@ class MainCard {
     makeItemOrder() {
         this.categoryLength = [];
         this.initIndex = 0;
-        this.itemLength = 0;
-        Object.keys(this.data).forEach((d) => { this.itemLength += this.data[d].length; this.categoryLength.push(this.data[d].length)});
+        Object.values(this.result['categoryCnt']).forEach((c) => Object.values(c).forEach((cnt) => this.categoryLength.push(cnt)));
+        this.itemLength = this.data.length;
         this.children = [];
         for (let i = 0; i < this.itemLength; i++) this.children.push(i);
         this.itemHalfLength = Math.floor(this.itemLength / 2);
@@ -103,6 +111,7 @@ class MainCard {
 
     insertIndicator() {
         let cnt = 0;
+        this.cardIndicators = document.querySelectorAll('.card-indicators');
         this.categoryLength.forEach((c, i) => { for (let j = 0; j < c; j++) {
             this.cardIndicators[i].innerHTML += `<div class="indicator" data-id="${cnt++}"></div>`;
         }});
