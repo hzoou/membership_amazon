@@ -19,10 +19,14 @@
  |   └── config.js
  |   └── connection.js
  ├── middlewares
+ |   └── auth.js
  |   └── multer.js
+ |   └── passport.js
+ |   └── session.js
  ├── models
- |   └── main.js
+ |   └── carousel.js
  |   └── table.js
+ |   └── user.js
  ├── public
  |   └── images
  |   └── javascripts
@@ -30,9 +34,6 @@
  |           └── Main-card.js
  |           └── Mini-carousel.js
  |           └── Table.js
- |       └── data
- |           └── Main-card.js
- |           └── Mini-carousel.js
  |       └── admin.js
  |       └── index.js
  |       └── signin.js
@@ -45,6 +46,7 @@
  ├── routes
  |   └── admin.js
  |   └── index.js
+ |   └── logout.js
  |   └── signin.js
  ├── schema
  |   └── query.js
