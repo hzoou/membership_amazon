@@ -23,34 +23,14 @@ const signIn = {
         submitBtn: ''
     },
 
-    fetchAPI(uri, method, body) {
-        return fetch(uri, {
-            method: method,
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        }).then((res) => {
-            if (res.ok) return res.json();
-            throw new Error('Network response was not ok.');
-        }).then((data) => {
-            return data;
-        }).catch((err) => {
-            return alert(err.message);
-        });
-    },
-
     attachEvent() {
         this.id.addEventListener("blur", this.check.bind(this));
         this.pw.addEventListener("blur", this.check.bind(this));
         this.submitBtn.addEventListener("click", this.signIn.bind(this));
     },
 
-    async signIn() {
-        if (Object.values(this.validation).every((v) => v.confirm === true)) {
-            this.body = { id: this.id.value, pw: this.pw.value };
-            this.res = await this.fetchAPI('/signin', 'POST', this.body);
-            if (this.res.status == "FAIL") alert(this.res.msg);
-            else self.location.href = './';
-        } else {
+    signIn() {
+        if (!Object.values(this.validation).every((v) => v.confirm === true)) {
             const element = (Object.values(this.validation).find((e) => !e.confirm));
             alert(element.msg);
         }
