@@ -22,9 +22,6 @@ const routes = {
     'main_carousel': () => {
         renderHtml(new Table('main_carousel'));
     },
-    'test': () => {
-        renderHtml(new Table('test'));
-    },
     otherwise() {
     }
 };
