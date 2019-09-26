@@ -21,6 +21,7 @@
  ├── middlewares
  |   └── multer.js
  ├── models
+ |   └── main.js
  |   └── table.js
  ├── public
  |   └── images
@@ -34,6 +35,7 @@
  |           └── Mini-carousel.js
  |       └── admin.js
  |       └── index.js
+ |       └── signin.js
  |   └── static_root
  |   └── stylesheets
  |       └── admin.css
@@ -45,10 +47,10 @@
  |   └── index.js
  |   └── signin.js
  ├── schema
- |   └── table.js
+ |   └── query.js
  ├── views
  |   └── admin.html
- |   └── index.html
+ |   └── main.html
  |   └── signin.html
  └── app.js
  ```

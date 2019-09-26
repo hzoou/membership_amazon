@@ -6,8 +6,7 @@ const logger = require('morgan');
 const flash = require('connect-flash');
 
 const session = require('./middlewares/session');
-
-const User = require('./models/user');
+const passport = require('./middlewares/passport');
 
 const indexRouter = require('./routes/index');
 const signinRouter = require('./routes/signin');
@@ -17,13 +16,8 @@ const adminRouter = require('./routes/admin');
 const app = express();
 
 app.use(session);
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-
 app.use(flash());
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -34,37 +28,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(async function(id, done) {
-    const user = await User.isAdmin(id);
-    if (user) done(null, user);
-    else done(null, false);
-});
-
-passport.use(new LocalStrategy({
-      usernameField: 'id',
-      passwordField: 'pw'
-    },
-    async function(id, pw, done) {
-      const user = await User.isHaveId(id);
-      if (!user) return done(null, false, { message: '아이디가 존재하지 않습니다.' });
-      if (!User.isCorrectPw(pw)) return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
-      return done(null, user);
-    }
-));
-
 app.post('/signin',
     passport.authenticate('local', {
-      successRedirect: '/admin',
-      failureRedirect: '/signin',
-      failureFlash: true })
+        successRedirect: '/admin',
+        failureRedirect: '/signin',
+        failureFlash: true })
 );
 
 app.use('/', indexRouter);
