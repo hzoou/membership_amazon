@@ -3,26 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const flash = require('connect-flash');
+
+const session = require('./middlewares/session');
+
+const User = require('./models/user');
+
 const indexRouter = require('./routes/index');
 const signinRouter = require('./routes/signin');
 const logoutRouter = require('./routes/logout');
 const adminRouter = require('./routes/admin');
 
-
-const flash = require('connect-flash');
-const session = require('express-session');
-const User = require('./models/user');
-const FileStore = require('session-file-store')(session);
-
 const app = express();
 
-
-app.use(session({
-  secret: 'secret-code',
-  resave: false,
-  saveUninitialized: true,
-  store: new FileStore()
-}));
+app.use(session);
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
