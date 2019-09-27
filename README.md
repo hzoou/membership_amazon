@@ -57,22 +57,31 @@
  └── app.js
  ```
 
-> Preview
+### Preview
+
 > 메인 페이지
+>
 ![](https://i.imgur.com/nMfrEEI.jpg)
 
 > 로그인 페이지
+>
 ![](https://i.imgur.com/kKX2eH5.png)
 
 > 관리자 페이지
+>
 ![](https://i.imgur.com/m24LchS.png)
 
 ### 🏠 [Homepage](http://106.10.56.165:3000/)
 > 관리자 계정 : admin/admin
+>
 > 관리자 설정 : user table - authentic : 1 (default : 0)
 
 ## Install
-
+> npm이 설치되어있지 않은 경우 (Ubuntu)
+```sh
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+apt install nodejs
+```
 ```sh
 npm install
 ```
