@@ -58,10 +58,10 @@
  ```
 
 > Preview
-
 ![](https://i.imgur.com/nMfrEEI.jpg)
 
-### 🏠 [Homepage](https://github.com/hzoou/membership-amazon#readme)
+### 🏠 [Homepage](http://106.10.56.165:3000/)
+> 관리자 계정 : admin/admin
 
 ## Install
 
