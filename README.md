@@ -62,6 +62,7 @@
 
 ### 🏠 [Homepage](http://106.10.56.165:3000/)
 > 관리자 계정 : admin/admin
+> 관리자 설정 : user table - authentic : 1 (default : 0)
 
 ## Install
 
