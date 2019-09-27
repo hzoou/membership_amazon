@@ -34,7 +34,7 @@ app.use(passport.session());
 app.post('/signin',
     passport.authenticate('local', {
         successRedirect: '/admin',
-        failureRedirect: '/signin',
+        failureRedirect: '/error',
         failureFlash: true })
 );
 
@@ -42,6 +42,9 @@ app.use('/', indexRouter);
 app.use('/signin', signinRouter);
 app.use('/admin', adminRouter);
 app.use('/logout', logoutRouter);
+app.get('/error', (req, res) => {
+    res.send('<script type="text/javascript">alert("아이디 또는 비밀번호를 확인해주세요.");window.location.href="./signin";</script>')
+});
 
 
 // catch 404 and forward to error handler
