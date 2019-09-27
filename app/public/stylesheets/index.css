@@ -40,7 +40,7 @@
 }
 
 .header-prime-container {
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Header_01._CB513133335_.png);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Header_01._CB513133335_.png");
     background-color: #0079b4;
     width: 1300px;
     height: 375px;
@@ -54,7 +54,7 @@
 .prime-logo {
     width: 80px;
     position: absolute;
-    bottom: 60px;
+    top: 390px;
 }
 
 .header {
@@ -73,7 +73,7 @@
 }
 
 .prime {
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/StaticBlade_PrimeDelivery_01._CB513143338_.png);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/StaticBlade_PrimeDelivery_01._CB513143338_.png");
     background-size: auto 360px;
     background-repeat: no-repeat;
     background-position: top center;
@@ -122,7 +122,7 @@
 .prime-container > .link > span {
     background-size: 135px;
     background-repeat: no-repeat;
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Sprites_2x._CB493761273_.png);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Sprites_2x._CB493761273_.png");
     background-position: 10px -199px;
     width: 15px;
     position: absolute;
@@ -132,7 +132,7 @@
 }
 
 .video {
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/StaticBlade_PrimeVideo_01._CB457666323_.png);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/StaticBlade_PrimeVideo_01._CB457666323_.png");
     background-size: auto 360px;
     background-position: top center;
     height: 360px;
@@ -151,11 +151,11 @@
     background-position: -5px -188px;
     margin: 0 6px;
     background-size: 128px;
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Sprites_2x._CB493761273_.png);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/Sprites_2x._CB493761273_.png");
 }
 
 .try {
-    background-image: url(https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/FinalCTA_01._CB515489489_.jpg);
+    background-image: url("https://images-na.ssl-images-amazon.com/images/G/01/marketing/prime/detail_page/FinalCTA_01._CB515489489_.jpg");
     background-position: inherit;
     height: 400px;
     margin-top: 40px;
