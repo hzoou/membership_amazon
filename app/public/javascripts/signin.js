@@ -24,8 +24,8 @@ const signIn = {
     },
 
     attachEvent() {
-        this.id.addEventListener("blur", this.check.bind(this));
-        this.pw.addEventListener("blur", this.check.bind(this));
+        this.id.addEventListener("keyup", this.check.bind(this));
+        this.pw.addEventListener("keyup", this.check.bind(this));
         this.submitBtn.addEventListener("click", this.signIn.bind(this));
     },
 
