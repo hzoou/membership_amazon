@@ -58,7 +58,14 @@
  ```
 
 > Preview
+> 메인 페이지
 ![](https://i.imgur.com/nMfrEEI.jpg)
+
+> 로그인 페이지
+![](https://i.imgur.com/kKX2eH5.png)
+
+> 관리자 페이지
+![](https://i.imgur.com/m24LchS.png)
 
 ### 🏠 [Homepage](http://106.10.56.165:3000/)
 > 관리자 계정 : admin/admin
